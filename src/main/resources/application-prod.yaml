@@ -22,7 +22,8 @@ spring:
                 # HTTP 헤더에도 여러가지가 있는데 그 헤더들을 전부 허용하겠다라는 의미.
                 allowedHeaders: '*'
                 # 인증 정보 같은 것들을 사용할 수 있게 허용할 거나라는 의미.
-                allowCredentials: true
+#                allowCredentials: true // allowedOrigins * 와는 동시에 사용할 수 없기에 잠시 주석처리
+                allowCredentials: false
           routes:
             - id: glemoa-reader
               predicates:
