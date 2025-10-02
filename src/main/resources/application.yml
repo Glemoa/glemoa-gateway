@@ -12,3 +12,4 @@ spring:
     name: glemoa-gateway
   profiles:
     active: prod
+#    active: local
