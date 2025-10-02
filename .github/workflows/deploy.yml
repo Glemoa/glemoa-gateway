@@ -61,7 +61,7 @@ jobs:
           source: "*.jar"
           target: "/root/gateway/" # 서버의 배포 디렉토리
 
-      # 3. 서버에서 배포 스크립트 실행 (SSH)
+      # 3. 서버에서 배포 스크립트 실행 (SSH) 좀 되라 제발!!!
       - name: Execute deployment script on server
         uses: appleboy/ssh-action@master
         with:
