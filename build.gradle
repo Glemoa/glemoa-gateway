@@ -41,3 +41,12 @@ dependencyManagement {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.named('jar') {
+    enabled = false
+}
+
+// 빌드 될 떄 '0.0.1-SNAPSHOT' << 이거 안붙이게 함.
+tasks.withType(org.springframework.boot.gradle.tasks.bundling.BootJar) {
+    archiveVersion.set('')
+}

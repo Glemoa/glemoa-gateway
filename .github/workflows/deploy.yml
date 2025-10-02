@@ -72,7 +72,7 @@ jobs:
           script: |
             mkdir -p /root/gateway && cd /root/gateway
 
-            APP_PORT=${APP_PORT:-8000}
+            APP_PORT=${APP_PORT:-8080}
             echo "Using APP_PORT=$APP_PORT"
 
             JAR_FILE=$(ls -1t glemoa-gateway*.jar 2>/dev/null | grep -v plain | head -n 1)
