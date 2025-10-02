@@ -70,14 +70,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           command_timeout: 10m
           script: |
-            # 배포 디렉토리 생성 및 이동
             mkdir -p /root/gateway && cd /root/gateway
 
-            # 게이트웨이 포트를 8000번으로 설정 (또는 원하는 다른 포트로 변경)
             APP_PORT=${APP_PORT:-8000}
             echo "Using APP_PORT=$APP_PORT"
 
-            # "glemoa-gateway"를 포함하는 최신 JAR 파일 찾기 (현재 디렉토리에서)
             JAR_FILE=$(ls -1t glemoa-gateway*.jar 2>/dev/null | grep -v plain | head -n 1)
 
             if [ -z "$JAR_FILE" ]; then
@@ -98,7 +95,6 @@ jobs:
 
             echo "Started $JAR_NAME, waiting for application to start on port $APP_PORT..."
 
-            # netcat (nc) 설치 확인 및 시도
             if ! command -v nc >/dev/null 2>&1; then
               echo "netcat not found, attempting to install..."
               if command -v apt-get >/dev/null 2>&1; then
@@ -108,7 +104,6 @@ jobs:
               fi
             fi
 
-            # 애플리케이션이 시작될 때까지 헬스 체크
             timeout=300
             while ! nc -z localhost $APP_PORT && [ $timeout -gt 0 ]; do
               echo "Application not yet available. Waiting..."
