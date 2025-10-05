@@ -62,6 +62,7 @@ public class JwtAuthFilter implements GlobalFilter {
                     .getBody();
 
             String userId = claims.getSubject();
+            String email = claims.get("email", String.class);
             String role = claims.get("role", String.class);
 
             // 헤더에 X-User-Id변수로 id값 추가 및 ROLE 추가
@@ -69,6 +70,7 @@ public class JwtAuthFilter implements GlobalFilter {
             ServerWebExchange modifiedExchange = exchange.mutate()
                     .request(builder -> builder
                             .header("X-User-Id", userId)
+                            .header("X-User-Email", email)
                             .header("X-User-Role", role) // 역할 추가
                     )
                     .build();
