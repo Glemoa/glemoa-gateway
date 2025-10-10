@@ -11,5 +11,5 @@ spring:
     # Eureka한테 나의 이름을 알려주기 위해 이름 설정
     name: glemoa-gateway
   profiles:
-    active: prod
-#    active: local
+#    active: prod
+    active: local
