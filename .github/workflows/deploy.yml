@@ -59,7 +59,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "*.jar"
-          target: "/root/gateway/" # 서버의 배포 디렉토리
+          target: "/home/ubuntu/gateway/" # 서버의 배포 디렉토리
 
       # 3. 서버에서 배포 스크립트 실행 (SSH) 좀 되라 제발!!!@ -> 자바 버전 업데이트를 안했었다..
       - name: Execute deployment script on server
@@ -70,7 +70,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           command_timeout: 10m
           script: |
-            mkdir -p /root/gateway && cd /root/gateway
+            DEPLOY_DIR="/home/ubuntu/gateway"
+            mkdir -p $DEPLOY_DIR && cd $DEPLOY_DIR
 
             APP_PORT=${APP_PORT:-8080}
             echo "Using APP_PORT=$APP_PORT"
@@ -78,7 +79,7 @@ jobs:
             JAR_FILE=$(ls -1t glemoa-gateway*.jar 2>/dev/null | grep -v plain | head -n 1)
 
             if [ -z "$JAR_FILE" ]; then
-              echo "❌ No gateway JAR found in /root/gateway. Listing contents:"
+              echo "❌ No gateway JAR found in $DEPLOY_DIR. Listing contents:"
               ls -al .
               exit 1
             fi
@@ -91,6 +92,7 @@ jobs:
 
             nohup java -jar \
               -Dspring.profiles.active=prod \
+              -Djwt.secretKey=${{ secrets.JWT_SECRET_KEY }} \
               "$JAR_NAME" > gateway.log 2>&1 &
 
             echo "Started $JAR_NAME, waiting for application to start on port $APP_PORT..."
