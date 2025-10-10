@@ -42,6 +42,7 @@ public class JwtAuthFilter implements GlobalFilter {
 
         // 인증이 필요 없는 경로는 필터를 통과 -> 그 다음 체인으로 이동해라. 라는 코드이다.
         if (ALLOWED_PATHS.contains(path)) {
+            System.out.println("인증 X 경로 검증 필터 생략");
             return chain.filter(exchange);
         }
 
