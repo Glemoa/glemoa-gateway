@@ -52,6 +52,7 @@ spring:
                 # 그럼 Eureka는 이 서비스로 가라고 알려줌.
                 # 이 이름들은 해당 서비스 이름인 application-name과 일치해야 함..
               uri: lb://glemoa-member
-# JWT 설정 추가
+
+# JWT 설정 추 가
 jwt:
   secretKey: ${JWT_SECRET_KEY} # GitHub Secrets에 정의한 변수 이름과 일치시켜야 함
