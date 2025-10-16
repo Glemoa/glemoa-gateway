@@ -27,7 +27,10 @@ public class JwtAuthFilter implements GlobalFilter {
                 // ⭐️ read 서비스 인증 불필요 API 경로 추가 ⭐️
                 "/recent-posts",             // @GetMapping("/recent-posts")
                 "/today-recommended-posts",  // @GetMapping("/today-recommended-posts")
-                "/today-view-count-posts"  // @GetMapping("/today-view-count-posts")
+                "/today-view-count-posts",  // @GetMapping("/today-view-count-posts")
+                "/search-posts",
+                "/search-today-recommended-posts",
+                "/search-today-view-count-posts"
                 // 쿼리 파라미터 (?source=...)는 경로에 포함하지 않음
             );
 
