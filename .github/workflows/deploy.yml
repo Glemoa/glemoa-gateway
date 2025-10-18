@@ -94,7 +94,7 @@ jobs:
               -Dspring.profiles.active=prod \
               -Djwt.secretKey=${{ secrets.JWT_SECRET_KEY }} \
               \
-              -Djava.io.tmpdir=/tmp \ #
+              -Djava.io.tmpdir=/tmp \
               \
               "$JAR_NAME" > gateway.log 2>&1 &
 
