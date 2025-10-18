@@ -50,6 +50,20 @@ spring:
                 # 이 이름들은 해당 서비스 이름인 application-name과 일치해야 함..
               uri: lb://glemoa-member
 
+            - id: glemoa-view-count-rank
+              predicates:
+                # 1. /member-member/** url 패턴으로 요청이 들어온다면 어디로 갈거냐??
+                - Path=/glemoa-view-count-rank/**
+              filters:
+                # StripPrefix : 첫번째 접두어를 제거후에 member-service로 http요청 전달
+                # 우리는 url 형식을 /member-service/member/doLogin 이런 형식으로 요청을 할 거임.
+                # 그래서 /member-service << 이 접두어는 없애고 요청을 보내도록 하기 위해서 접두어를 제거.
+                - StripPrefix=1
+                # 2. lb는 Eureka 한테 물어보는 거임. 나 어디로 가야하냐??
+                # 그럼 Eureka는 이 서비스로 가라고 알려줌.
+                # 이 이름들은 해당 서비스 이름인 application-name과 일치해야 함..
+              uri: lb://glemoa-view-count-rank
+
 jwt:
   #  Base64로 인코딩된 문자 32자 이상 필요.(특수문자안됨) -> 재미나이 설명으로는 최소 88자 필요
   #  beyondaccesstokensecretkeybeyondaccesstokensecretkeybeyondaccesstokensecretkey
