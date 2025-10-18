@@ -93,6 +93,9 @@ jobs:
             nohup java -jar \
               -Dspring.profiles.active=prod \
               -Djwt.secretKey=${{ secrets.JWT_SECRET_KEY }} \
+              \
+              -Djava.io.tmpdir=/tmp \ #
+              \
               "$JAR_NAME" > gateway.log 2>&1 &
 
             echo "Started $JAR_NAME, waiting for application to start on port $APP_PORT..."
