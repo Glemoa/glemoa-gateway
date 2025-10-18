@@ -8,6 +8,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class JwtAuthFilter implements GlobalFilter {
     @Value("${jwt.secretKey}")
     private String secretKey;
+
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     private final List<String> ALLOWED_PATHS = List.of(
                 // ⭐️ member 서비스 인증 불필요 API 경로 추가 ⭐️
@@ -30,8 +33,12 @@ public class JwtAuthFilter implements GlobalFilter {
                 "/today-view-count-posts",  // @GetMapping("/today-view-count-posts")
                 "/search-posts",
                 "/search-today-recommended-posts",
-                "/search-today-view-count-posts"
+                "/search-today-view-count-posts",
                 // 쿼리 파라미터 (?source=...)는 경로에 포함하지 않음
+
+                // ⭐️ viewCountRank 서비스 인증 불필요 API 경로 추가 ⭐️
+                "/ranks/daily", // GET /ranks/daily (정확히 일치)
+                "/views/**"     // GET /views/{postId} & POST /views/{postId} (접두사 매칭)
             );
 
     @Override
@@ -44,7 +51,7 @@ public class JwtAuthFilter implements GlobalFilter {
         System.out.println(path);
 
         // 인증이 필요 없는 경로는 필터를 통과 -> 그 다음 체인으로 이동해라. 라는 코드이다.
-        if (ALLOWED_PATHS.contains(path)) {
+        if (ALLOWED_PATHS.stream().anyMatch(allowed -> pathMatcher.match(allowed, path))) {
             System.out.println("인증 X 경로 검증 필터 생략");
             return chain.filter(exchange);
         }
