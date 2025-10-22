@@ -2,6 +2,7 @@ package hyunsub.glemoagateway;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class JwtAuthFilter implements GlobalFilter {
     @Value("${jwt.secretKey}")
@@ -43,16 +45,15 @@ public class JwtAuthFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // token 검증
-        System.out.println("token 검증 시작");
+//        System.out.println("token 검증 시작");
         String bearerToken = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
         String path = exchange.getRequest().getURI().getRawPath();
-        System.out.println(path);
+//        System.out.println(path);
 
         // 인증이 필요 없는 경로는 필터를 통과 -> 그 다음 체인으로 이동해라. 라는 코드이다.
         if (ALLOWED_PATHS.stream().anyMatch(allowed -> pathMatcher.match(allowed, path))) {
-            System.out.println("인증 X 경로 검증 필터 생략");
+//            System.out.println("인증 X 경로 검증 필터 생략");
             return chain.filter(exchange);
         }
 
@@ -62,8 +63,6 @@ public class JwtAuthFilter implements GlobalFilter {
             }
 
             String accessToken = bearerToken.substring(7);
-
-            System.out.println(accessToken);
 
             // token 검증 및 claims 추출
             Claims claims = Jwts.parserBuilder()
@@ -86,7 +85,7 @@ public class JwtAuthFilter implements GlobalFilter {
                     )
                     .build();
 
-            System.out.println("유효한 accessToken 입니다! ");
+            log.info("${} : 로그인이 필요한 페이지 접속", userId);
 
             return chain.filter(modifiedExchange);
         } catch (Exception e){
