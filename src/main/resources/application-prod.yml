@@ -70,3 +70,9 @@ spring:
 # JWT 설정 추 가
 jwt:
   secretKey: ${JWT_SECRET_KEY} # GitHub Secrets에 정의한 변수 이름과 일치시켜야 함
+
+logging:
+  config: classpath:logback-prod.xml
+  level:
+    # 기본 레벨을 INFO로 유지 (기타 라이브러리)
+    root: INFO
