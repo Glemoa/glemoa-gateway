@@ -13,7 +13,7 @@ spring:
                 # 어떤 도메인을 허용할 거냐 라는 의미.
                 # - << 대시를 통해 여러 도메인을 허용 가능하다 밑에는 예시
                 allowedOrigins:
-                  - 'https://www.glemoa.shop'
+                  - '*'
 #                  - 'http://localhost:3000'
                 # - 'https://www.example.com'
 
