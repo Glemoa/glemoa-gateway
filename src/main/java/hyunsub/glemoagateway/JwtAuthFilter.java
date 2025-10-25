@@ -27,6 +27,8 @@ public class JwtAuthFilter implements GlobalFilter {
                 // ⭐️ member 서비스 인증 불필요 API 경로 추가 ⭐️
                 "/member/doSave",
                 "/member/doLogin",
+                "/member/google/doLogin",
+                "/member/kakao/doLogin",
                 "/member/refreshToken",
 
                 // ⭐️ read 서비스 인증 불필요 API 경로 추가 ⭐️
